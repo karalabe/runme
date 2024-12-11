@@ -4,7 +4,7 @@
 
 - `runme` can execute Shell, Go and Rust projects.
 - `runme` executes inside an Alpine docker container.
-- `runme` supports various Go, Rust and Alpine versions:
+- `runme` supports various [Go, Rust and Alpine](https://hub.docker.com/repository/docker/karalabe/runme/tags) versions:
   - Shell images are tagged `shell-alpineI.J` (`I.J` optional).
   - Go images are tagged `golangX.Y.Z-alpineI.J` (`X.Y.Z`, `Z`, `I.J` optional).
   - Rust images are tagged `rustX.Y.Z-alpineI.J` (`X.Y.Z`, `Z`, `I.J` optional).
