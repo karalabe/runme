@@ -1,0 +1,14 @@
+# Use Rust as a base image
+ARG ALPINE_VERSION=""
+ARG RUST_VERSION=""
+
+FROM rust:${RUST_VERSION:+$RUST_VERSION-}alpine${ALPINE_VERSION}
+
+# Install git so we can pull and push GitHub
+RUN apk add --no-cache git
+
+# Inject the runner script to start the user code
+ENV RUNME_TYPE=rust
+
+ADD runme.sh .
+ENTRYPOINT ["./runme.sh"]

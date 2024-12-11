@@ -1,0 +1,14 @@
+# Use Go as a base image
+ARG ALPINE_VERSION=""
+ARG GO_VERSION=""
+
+FROM golang:${GO_VERSION:+$GO_VERSION-}alpine${ALPINE_VERSION}
+
+# Install git so we can pull and push GitHub
+RUN apk add --no-cache git
+
+# Inject the runner script to start the user code
+ENV RUNME_TYPE=golang
+
+ADD runme.sh .
+ENTRYPOINT ["./runme.sh"]

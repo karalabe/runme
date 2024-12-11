@@ -1,0 +1,13 @@
+# Use Alpine as a base image
+ARG ALPINE_VERSION=""
+
+FROM alpine:${ALPINE_VERSION:-latest}
+
+# Install git so we can pull and push GitHub
+RUN apk add --no-cache git
+
+# Inject the runner script to start the user code
+ENV RUNME_TYPE=shell
+
+ADD runme.sh .
+ENTRYPOINT ["./runme.sh"]
