@@ -22,12 +22,14 @@ TL;DR
 
 ```sh
 docker run \
-  -e GITHUB_USER=karalabe -e GITHUB_REPO=runme \
-  karalabe/runme:shell-alpine example/hello-world-shell/main.sh
+  -e GITHUB_USER=karalabe \
+  -e GITHUB_REPO=runme \
+  -e RUNME_TARGET=example/hello-world-rust \
+  karalabe/runme:rust-alpine
   
 [...]
 
-Hello, Shell!
+Hello, Rust!
 ```
 
 ## How to use
