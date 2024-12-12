@@ -1,6 +1,12 @@
 # runme - Execute a GitHub repo
 
-`runme` is a tiny utility to clone a (potentially private) GitHub repository inside a docker container and execute its contents. Kind of like the Unix `exec`, just for a Github repo.
+I use Unraid as a home server:
+
+- I have code I'd like to run from a private GitHub repo.
+- I don't want to self-host a docker registry for builds.
+- I don't want a step between my code and Unraid.
+
+`runme` is a tool made for purpose: to allow me to start a boilerplate container (configured locally - credentials included - in Unraid), that can access private code (hosted at GitHub), and run it:
 
 - `runme` can execute Shell, Go and Rust projects.
 - `runme` executes inside an Alpine docker container.
@@ -12,7 +18,7 @@
 
 *`runme` does not call docker itself, that step is your task.*
 
-## TL;DR
+TL;DR
 
 ```sh
 docker run \
@@ -26,31 +32,22 @@ Hello, Shell!
 
 ## How to use
 
-The `runme` target repo is controlled via env vars:
+Unraid's default mode of operation is to configure docker images from its web UI. This is elegant because it makes the system declarative, where you can restore it from a tiny config file instead of a whole live OS. `runme` fits into this model, where the base image is hosted on the public docker hub that you just add to Unraid and configure evrything via env vars.
+
+The `runme` container is controlled via env vars:
 
 - `GITHUB_USER`: The repository owner to execute from.
 - `GITHUB_REPO`: The repository to execute code from.
-- `GITHUB_AUTH`: Personal Access Token for private repos.
+- `GITHUB_AUTH`: Personal Access Token (private repos).
+- `RUNME_BRANCH`: Git branch to check out before running.
+- `RUNME_TARGET`: Path to the package or file to run:
+  - Shell: path to the `.sh` file to execute.
+  - Go: path to the `.go` file or Go package to execute.
+  - Rust: path to the project to execute.
 
-The `runme` target code is controlled via a single CLi argument:
-
-- Shell: path to the `.sh` file to execute.
-- Go: path to the `.go` file to execute.
-- Rust: path to the project to execute.
-
-To avoid cloning the repository on every container startup, map the `/workdir` folder.
+To avoid re-cloning the entire repo on startup, map `/workdir` to you host.
 
 ***Note, `runme` will check out the repository and leave it all (GitHub credentials included) reachable for the executing code. This is deliberate to allow the code to make changes to itself and push them back to GitHub.***
-
-## But why?
-
-I use Unraid as a home server:
-
-- I have private code I'd like to run from private GitHub repositories.
-- I don't want to host a private docker repository for prebuilds.
-- I don't want to pay for docker to host code prebuilds.
-
-`runme` is a tool made for purpose: to allow me to start a shell container (configured locally, credentials included, in Unraid), that can access private code (hosted at GitHub), and run it.
 
 ## Note to self
 
