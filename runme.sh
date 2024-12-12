@@ -4,8 +4,11 @@ set -e
 # Make a nice shell logger, thank you Filippo
 __() { printf "\n\033[1;32m* %s [%s]\033[0m\n" "$1" "$(date -u +"%Y-%m-%dT%H:%M:%SZ")"; }
 
+# If the folder is mapped from the outside, the user will mismatch, ignore
+git config --global --add safe.directory /workdir
+
 # Clone the repository if new, or update if already exists
-if [ ! -e /workdir ]; then
+if [ ! -e /workdir/.git ]; then
     if [ ! "$GITHUB_AUTH" = "" ]; then
         __ "Cloning private repo $GITHUB_USER/$GITHUB_REPO"
         git clone "https://$GITHUB_AUTH@github.com/$GITHUB_USER/$GITHUB_REPO" /workdir
